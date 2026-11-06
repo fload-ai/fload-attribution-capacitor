@@ -53,8 +53,8 @@
     "test:android": "cd android && ./gradlew test && cd ..",
     "stub-ingest": "node scripts/stub-ingest.mjs --port 3999",
     "check:ios-simulator": "sh scripts/ios-simulator-check.sh",
-    "vendor": "node scripts/vendor-ios-sdk.mjs $npm_package_floadNative_ios ios/Vendor/FloadAttribution",
-    "check:vendor": "node scripts/vendor-ios-sdk.mjs $npm_package_floadNative_ios ios/Vendor/FloadAttribution --check"
+    "vendor": "node scripts/vendor-ios-sdk.mjs package ios/Vendor/FloadAttribution",
+    "check:vendor": "node scripts/vendor-ios-sdk.mjs package ios/Vendor/FloadAttribution --check"
   },
   "devDependencies": {
     "@capacitor/android": "^8.0.0",

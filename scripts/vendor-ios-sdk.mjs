@@ -2,7 +2,7 @@
 // Copies the Swift sources of fload-attribution-ios at a pinned tag into this
 // package, or (with --check) fails when the vendored copy differs from that tag
 // byte for byte. Usage:
-//   node scripts/vendor-ios-sdk.mjs <tag> <destination> [--check] [--prefix=<p>]
+//   node scripts/vendor-ios-sdk.mjs <tag|package> <destination> [--check] [--prefix=<p>]
 // --prefix renames each X.swift to <p>X.swift (contents unchanged), for builds
 // that put every plugin's Swift into one module, where two files with the same
 // name fail the build (Unity's UnityFramework target).
@@ -18,7 +18,10 @@ const REPO = 'https://github.com/fload-ai/fload-attribution-ios.git';
 const args = process.argv.slice(2);
 const prefixArg = args.find((a) => a.startsWith('--prefix='));
 const prefix = prefixArg ? prefixArg.slice('--prefix='.length) : '';
-const [tag, destination, flag] = args.filter((a) => a !== prefixArg);
+const positional = args.filter((a) => a !== prefixArg);
+const [tagArg, destination, flag] = positional;
+// "package" reads the pin from ./package.json (floadNative.ios), so it lives in one place.
+const tag = tagArg === 'package' ? JSON.parse(readFileSync('package.json', 'utf8')).floadNative?.ios : tagArg;
 const rename = (file) => {
   if (!prefix || !file.endsWith('.swift')) return file;
   const parts = file.split('/');
@@ -26,7 +29,7 @@ const rename = (file) => {
   return parts.join('/');
 };
 if (!tag || !destination) {
-  console.error('usage: vendor-ios-sdk.mjs <tag> <destination> [--check]');
+  console.error('usage: vendor-ios-sdk.mjs <tag|package> <destination> [--check] [--prefix=<p>]');
   process.exit(2);
 }
 
