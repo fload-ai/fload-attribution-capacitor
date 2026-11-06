@@ -1,26 +1,36 @@
 <!doctype html>
-<html lang="en" dir="ltr" class="hydrated">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Example Capacitor App</title>
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="format-detection" content="telephone=no" />
+    <title>Fload Attribution example</title>
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0" />
+    <style>
+      body { font: 16px -apple-system, system-ui, sans-serif; margin: 0; padding: env(safe-area-inset-top) 16px 16px; color: #1a1a1a; background: #fff; }
+      h1 { font-size: 20px; margin: 16px 0 4px; }
+      p { color: #555; margin: 0 0 16px; }
+      label { display: block; font-size: 13px; color: #555; margin: 12px 0 4px; }
+      input { width: 100%; box-sizing: border-box; font: inherit; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+      button { font: inherit; margin: 8px 8px 0 0; padding: 8px 14px; border: 0; border-radius: 6px; background: #5044dc; color: #fff; }
+      code, pre { font: 13px ui-monospace, Menlo, monospace; }
+      pre { background: #f4f4f6; padding: 8px; border-radius: 6px; white-space: pre-wrap; min-height: 6em; }
+    </style>
   </head>
   <body>
-    <main>
-      <h1>Capacitor Test Plugin Project</h1>
-      <p>
-        This project can be used to test out the functionality of your plugin. Nothing in the
-        <em>example-app/</em> folder will be published to npm when using this template, so you can create away!
-      </p>
-      <label for="echoInput">Echo Text:</label>
-      <input type="text" id="echoInput" name="echoInput" value="Hello World!" />
-      <button onclick="testEcho()">Click Me!</button>
-    </main>
-
+    <h1>Fload Attribution</h1>
+    <p>Sends this install to a local stub ingest. Run <code>npm run stub-ingest</code> in the plugin folder first.</p>
+    <label for="key">Write key</label>
+    <input id="key" value="fload_pk_example" autocapitalize="off" autocorrect="off" />
+    <label for="endpoint">Endpoint</label>
+    <input id="endpoint" autocapitalize="off" autocorrect="off" />
+    <button id="configure">configure</button>
+    <label for="userId">User id</label>
+    <input id="userId" value="example-user-1" autocapitalize="off" autocorrect="off" />
+    <button id="setUserId">setUserId</button>
+    <label>Install reference</label>
+    <pre id="installReference">…</pre>
+    <button id="refresh">refresh</button>
+    <label>Log</label>
+    <pre id="log"></pre>
     <script src="./js/example.js" type="module"></script>
   </body>
 </html>

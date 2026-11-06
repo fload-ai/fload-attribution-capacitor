@@ -1,6 +1,6 @@
 {
   "name": "@fload-ai/attribution-capacitor",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Fload install attribution for Capacitor apps (Apple Ads via AdServices, Google Play Install Referrer)",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,11 +11,11 @@
     "android/build.gradle",
     "dist/",
     "ios/Sources",
-    "ios/Tests",
+    "ios/Vendor",
     "Package.swift",
     "FloadAiAttributionCapacitor.podspec"
   ],
-  "author": "Fload",
+  "author": "Fload Technologies Limited",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -27,23 +27,33 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "attribution",
+    "apple ads",
+    "adservices",
+    "install referrer",
+    "fload"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "xcodebuild -scheme FloadAiAttributionCapacitor -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
-    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
-    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
+    "lint": "npm run eslint && npm run prettier -- --check",
+    "fmt": "npm run eslint -- --fix && npm run prettier -- --write",
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
-    "swiftlint": "node-swiftlint",
-    "docgen": "docgen --api FloadAttributionPlugin --output-readme README.md --output-json dist/docs.json",
+    "docgen": "docgen --api FloadAttributionPlugin --output-json dist/docs.json",
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "npm run test:ios-host && npm run test:android",
+    "test:ios-host": "sh scripts/host-test-ios.sh",
+    "test:android": "cd android && ./gradlew test && cd ..",
+    "stub-ingest": "node scripts/stub-ingest.mjs --port 3999",
+    "vendor": "node scripts/vendor-ios-sdk.mjs $npm_package_floadNative_ios ios/Vendor/FloadAttribution",
+    "check:vendor": "node scripts/vendor-ios-sdk.mjs $npm_package_floadNative_ios ios/Vendor/FloadAttribution --check"
   },
   "devDependencies": {
     "@capacitor/android": "^8.0.0",
@@ -52,20 +62,17 @@
     "@capacitor/ios": "^8.0.0",
     "@ionic/eslint-config": "^0.4.0",
     "@ionic/prettier-config": "^4.0.0",
-    "@ionic/swiftlint-config": "^2.0.0",
     "eslint": "^8.57.1",
     "prettier": "^3.6.2",
     "prettier-plugin-java": "^2.7.7",
     "rimraf": "^6.1.0",
     "rollup": "^4.53.2",
-    "swiftlint": "^2.0.0",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@capacitor/core": ">=8.0.0"
   },
   "prettier": "@ionic/prettier-config",
-  "swiftlint": "@ionic/swiftlint-config",
   "eslintConfig": {
     "extends": "@ionic/eslint-config/recommended"
   },
@@ -76,5 +83,10 @@
     "android": {
       "src": "android"
     }
+  },
+  "homepage": "https://github.com/fload-ai/fload-attribution-capacitor#readme",
+  "floadNative": {
+    "ios": "1.0.0",
+    "android": "1.0.1"
   }
 }
