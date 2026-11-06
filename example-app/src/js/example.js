@@ -39,6 +39,7 @@ async function showInstallReference() {
     const { installReference } = await FloadAttribution.getInstallReference();
     if (installReference) {
       $('installReference').textContent = installReference;
+      console.log('Fload example: install reference ' + installReference); // read by the emulator check
       return;
     }
     await new Promise((resolve) => setTimeout(resolve, 300));
