@@ -1,6 +1,6 @@
 {
   "name": "@fload-ai/attribution-capacitor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Fload install attribution for Capacitor apps (Apple Ads via AdServices, Google Play Install Referrer)",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
