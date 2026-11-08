@@ -27,6 +27,16 @@ final class PluginArgumentsTests: XCTestCase {
         XCTAssertEqual(configuration.options.logLevel, .debug)
     }
 
+    func testNamesThisWrapperWithThePackageVersion() throws {
+        // package.json at the package root, four levels up from this file.
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let package = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: root.appendingPathComponent("package.json"))) as? [String: Any])
+        let version = try XCTUnwrap(package["version"] as? String)
+        let expected = FloadWrapper(name: "capacitor", version: version)
+        XCTAssertEqual(try XCTUnwrap(configuration("k")).options.wrapper, expected)
+        XCTAssertEqual(try XCTUnwrap(configuration("k", "http://localhost:3999", "debug")).options.wrapper, expected)
+    }
+
     func testBadEndpointOrLogLevelIsRefused() {
         XCTAssertNil(configuration("k", "ftp://x"))
         XCTAssertNil(configuration("k", nil, "verbose"))

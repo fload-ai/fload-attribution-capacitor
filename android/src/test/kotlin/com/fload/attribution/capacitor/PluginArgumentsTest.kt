@@ -1,7 +1,9 @@
 package com.fload.attribution.capacitor
 
 import com.fload.attribution.FloadLogLevel
+import java.io.File
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -28,6 +30,22 @@ class PluginArgumentsTest {
         val result = configure("k", "http://10.0.2.2:3001", "debug") as PluginArguments.Result.Success
         assertEquals("http://10.0.2.2:3001", result.options.endpoint)
         assertEquals(FloadLogLevel.DEBUG, result.options.logLevel)
+    }
+
+    @Test
+    fun namesThisWrapperWithThePackageVersion() {
+        for (result in listOf(configure("k"), configure("k", "http://10.0.2.2:3001", "debug"))) {
+            val wrapper = (result as PluginArguments.Result.Success).options.wrapper
+            assertNotNull("the options carry a wrapper", wrapper)
+            assertEquals("capacitor", wrapper!!.name)
+            assertEquals(packageVersion(), wrapper.version)
+        }
+    }
+
+    /** This package's version, from package.json (Gradle runs unit tests in android/). */
+    private fun packageVersion(): String {
+        val json = File("../package.json").readText()
+        return Regex("\"version\"\\s*:\\s*\"([^\"]+)\"").find(json)!!.groupValues[1]
     }
 
     @Test

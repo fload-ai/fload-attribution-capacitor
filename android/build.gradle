@@ -1,8 +1,9 @@
 ext {
     junitVersion = project.hasProperty('junitVersion') ? rootProject.ext.junitVersion : '4.13.2'
-    // The Kotlin SDK this plugin wraps. An app can pin another 1.x by setting
+    // The Kotlin SDK this plugin wraps. An app can pin another 1.x from 1.1.0 on
+    // (the plugin names itself through FloadWrapper, new in 1.1.0) by setting
     // `floadAttributionAndroidVersion` in its variables.gradle.
-    floadAttributionAndroidVersion = rootProject.ext.has('floadAttributionAndroidVersion') ? rootProject.ext.floadAttributionAndroidVersion : '1.0.2'
+    floadAttributionAndroidVersion = rootProject.ext.has('floadAttributionAndroidVersion') ? rootProject.ext.floadAttributionAndroidVersion : '1.1.0'
 }
 
 buildscript {

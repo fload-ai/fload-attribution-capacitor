@@ -2,6 +2,7 @@ package com.fload.attribution.capacitor
 
 import com.fload.attribution.FloadLogLevel
 import com.fload.attribution.FloadOptions
+import com.fload.attribution.FloadWrapper
 import java.net.URI
 
 /** The plugin's argument rules, kept free of Capacitor so they can be unit tested. */
@@ -26,7 +27,7 @@ internal class PluginArguments(
         }
         val level = if (logLevel == null) defaults.logLevel else LOG_LEVELS[logLevel]
             ?: return Result.Failure("Fload: logLevel must be one of none, error, warning, info, debug")
-        return Result.Success(key, FloadOptions(resolvedEndpoint, level))
+        return Result.Success(key, FloadOptions(resolvedEndpoint, level, FloadWrapper(WRAPPER_NAME, WRAPPER_VERSION)))
     }
 
     private fun isHttpUrl(value: String): Boolean = try {
@@ -37,6 +38,13 @@ internal class PluginArguments(
     }
 
     companion object {
+        /**
+         * This plugin as every request names it (`sdk.wrapper`). The version is
+         * this package's own; PluginArgumentsTest holds it equal to package.json.
+         */
+        const val WRAPPER_NAME = "capacitor"
+        const val WRAPPER_VERSION = "1.1.0"
+
         val LOG_LEVELS: Map<String, FloadLogLevel> = mapOf(
             "none" to FloadLogLevel.NONE,
             "error" to FloadLogLevel.ERROR,
